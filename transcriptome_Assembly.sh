@@ -67,3 +67,9 @@ for dir in $dir_list
 
     cd ..
   done
+
+
+
+  ## Running busco
+
+  ./busco_5.1.3.sif busco

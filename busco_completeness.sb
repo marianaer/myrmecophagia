@@ -2,7 +2,7 @@
 
 #SBATCH --ntasks-per-node=24
 #SBATCH --nodes=1
-#SBATCH --time=168:00:00
+#SBATCH --time=8:00:00
 #SBATCH -p long-24core
 #SBATCH -J  BUSCO
 #SBATCH --output=%j.out

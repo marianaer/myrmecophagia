@@ -71,5 +71,39 @@ for dir in $dir_list
 
 
   ## Running busco
+singularity pull busco_5.1.3.sif docker://quay.io/biocontainers/busco:5.1.3--pyhdfd78af_0
 
-  ./busco_5.1.3.sif busco
+# use link to where we downloaded busco originally (previous command)
+  ./busco_5.1.3.sif busco -i "$dir"_trinity_output.Trinity.fasta -l mammalia_odb10 -o "$dir" -m tran
+
+
+
+
+  #### Get ENSEMBL metazoa peptide database for transcriptome annotation with assembly2ORF
+ # We only need the pep  (peptide) files. We cant do ftp with regex insid so we need to do it like this
+wget http://ftp.ensemblgenomes.org/pub/metazoa/release-53/fasta/
+grep -o '".*"' index.html > metazoa.list
+sed 's/"//g' metazoa.list
+sed 's/"//g' metazoa.list | sed 's/\///g' > metazoa_ensembl.list
+
+for i in $(cat metazoa_ensembl.list); do wget -r "ftp://ftp.ensemblgenomes.org/pub/metazoa/release-53/fasta/"$i"/pep"
+
+
+#cat them all together
+zcat *pep.all.fa.gz > all_metazoa.pep.all.fa
+
+# Some issues with ascii characters, must be removed
+cat all_metazoa.pep.all.fa | perl -ne 's/[^\x00-\x7F]+/ /g; print;' > all_metazoa_db.pep.all.fa
+
+
+# Create blastdb to blast all vs all_metazoa
+/home/escobar/bin/ncbi-blast-2.13.0+/bin/makeblastdb  -in all_metazoa_db.pep.all.fa  -input_type fasta  -dbtype prot
+
+# All vs. all blast
+/home/escobar/bin/ncbi-blast-2.13.0+/bin/blastp -db all_metazoa_db.pep.all.fa -query all_metazoa.pep.all.fa -out all_sv_all.tsv -outfmt 6  -num_threads 20
+
+
+
+
+
+# O tal vez si se podia solo habia que usar comillas dobles en la direccion ftp :(

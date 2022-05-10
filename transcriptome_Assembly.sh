@@ -10,7 +10,11 @@ CORENAME=echo $1| sed 's/_[0-9]_fastp.fq.gz//g'
 
 # eg. sh thranscriptome_Assembly. sh xxxx.fastq.gz
 
-# Quality control. FastQC
+# fastp
+#fastp -i Carollia_sowelli_SalivaryGland_SRR7064957_1.fastq.gz -o Carollia_sowelli_SalivaryGland_SRR7064957_1_fastp.fq.gz -I Carollia_sowelli_SalivaryGland_SRR7064957_2.fastq.gz -O Carollia_sowelli_SalivaryGland_SRR7064957_2_fastp.fq.gz -w 40 -h Carollia_sowelli_SalivaryGland_SRR7064957_fastp.html -V
+
+#Quality control. FastQC
+
 
 # Create dorectpry for fastqc outputs if it doesnt already exist
 mkdir -p fastq_outputs
@@ -74,8 +78,11 @@ for dir in $dir_list
 singularity pull busco_5.1.3.sif docker://quay.io/biocontainers/busco:5.1.3--pyhdfd78af_0
 
 # use link to where we downloaded busco originally (previous command)
-  ./busco_5.1.3.sif busco -i "$dir"_trinity_output.Trinity.fasta -l mammalia_odb10 -o "$dir" -m tran
+./busco_5.1.3.sif busco -i "$dir"_trinity_output.Trinity.fasta -l mammalia_odb10 -o "$dir" -m tran
 
+  # Generate Summary plot. IMPORTANT: all summary for all transcriptomes whould be in the same folder. This should be run there
+
+./busco_5.1.3.sif generate_plot.py -wd ${PATH_TO_SUMMARIES}
 
 
 

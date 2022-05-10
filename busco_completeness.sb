@@ -14,6 +14,6 @@ singularity pull busco_5.1.3.sif docker://quay.io/biocontainers/busco:5.1.3--pyh
 
 /gpfs/scratch/maescobarrod/trinity_assemblies/busco_5.1.3.sif busco -i $1 -l mammalia_odb10 -o "$2"_busco -m tran
 
-# Generate Summary plot
+# Generate Summary plot. IMPORTANT: all summary for all transcriptomes whould be in the same folder. This should be run there
 
-/gpfs/scratch/maescobarrod/trinity_assemblies/busco_5.1.3.sif generate_plot.py -wd "$2"_busco 
+/gpfs/scratch/maescobarrod/trinity_assemblies/busco_5.1.3.sif generate_plot.py -wd ${PATH_TO_SUMMARIES}

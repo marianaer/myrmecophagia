@@ -21,16 +21,16 @@ RNAMMER_PATH=/home/escobar/bin/rnammer-1.2
 ### Capturing Blast homologies with Trinotate ###
 
 # search Trinity transcripts
-blastx -query ${Trinity_fasta} -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastx.outfmt6
+#blastx -query ${Trinity_fasta} -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastx.outfmt6
 
 # search Transdecoder-predicted proteins
-blastp -query ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep  -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastp.outfmt6
+#blastp -query ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep  -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastp.outfmt6
 
 # Running HMMER to identify protein domains
-hmmsearch --cpu 40 --domtblout TrinotatePFAM.out  ${PATH_TO_DB}/Pfam-A.hmm ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep > pfam.log
+#hmmsearch --cpu 40 --domtblout TrinotatePFAM.out  ${PATH_TO_DB}/Pfam-A.hmm ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep > pfam.log
 
 ## SignalP to predict signal peptides
-signalp6 -f short -n signalp.out ${Trinity_fasta}.transdecoder.pep
+signalp6 --output_dir $(pwd) --mode fast --format txt --organism eukarya --fastafile ${Trinity_fasta}.transdecoder.pep
 
 #DeepTMHMM (tmHMM) to predict transmembrane regions
 # conda activate tmhmm
@@ -53,6 +53,6 @@ init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --
 #LOAD_swissprot_blastp blastp.outfmt6
 #LOAD_pfam TrinotatePFAM.out
 #LOAD_tmhmm <file>
-#LOAD_signalp <file>
+#LOAD_signalp signalp.out
 
 #${TRINOTATE_PATH}/Trinotate

@@ -70,7 +70,7 @@ ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_signalp prediction_results.txt
 
 # Trinotate output and annotation Report
 ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite report --incl_pep --incl_trans > trinotate_annotation_report.xls
-#f
+#ff
 
 # Automated uploading all results into sqlite dbs and computing results
 #${TRINOTATE_PATH}/auto/autoTrinotate.pl

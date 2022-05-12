@@ -12,9 +12,11 @@ PATH_TO_DB=/home/escobar/Desktop/databases/trinotate_db
 TRINOTATE_PATH=/home/escobar/bin/Trinotate
 RNAMMER_PATH=/home/escobar/bin/rnammer-1.2
 TRINITY_PATH=/home/escobar/bin/trinityrnaseq-v2.14.0
+PATH_TO_TRANSDECODER=/home/escobar/bin/TransDecoder
 
 # 1. Extract long ORFs (at least 100 amino acids long)
-${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t $Trinity_fasta
+echo 'TransDecoder...'
+${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t ${Trinity_fasta}
 
 ${PATH_TO_TRANSDECODER}TransDecoder.Predict -t ${Trinity_fasta}
 

@@ -11,6 +11,7 @@ Trinity_gene_map=$2 #Gene_trans_map output by trinity
 PATH_TO_DB=/home/escobar/Desktop/databases/trinotate_db
 TRINOTATE_PATH=/home/escobar/bin/Trinotate
 RNAMMER_PATH=/home/escobar/bin/rnammer-1.2
+TRINITY_PATH=/home/escobar/bin/trinityrnaseq-v2.14.0
 
 # 1. Extract long ORFs (at least 100 amino acids long)
 #${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t $Trinity_fasta
@@ -46,13 +47,30 @@ ${TRINOTATE_PATH}/util/rnammer_support/RnammerTranscriptome.pl --transcriptome $
 
 # Load resulting gff file into trinotate in SQLite databases
 
-# Import transcriptome and protein data
-init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --transdecoder_pep ${Trinity_fasta}.transdecoder.pep
+# Getting boilerplate Trinotate sqlite db and populating it with our data
+#d 1. Load transcripts and coding regions into sqlite db
 
-# TransDecoder protein search results
-#LOAD_swissprot_blastp blastp.outfmt6
-#LOAD_pfam TrinotatePFAM.out
-#LOAD_tmhmm <file>
-#LOAD_signalp signalp.out
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --transdecoder_pep ${Trinity_fasta}
 
-#${TRINOTATE_PATH}/Trinotate
+# 2. Load Blast homologies
+# load protein hits
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_swissprot_blastp blastp.outfmt6
+
+# load transcript hits
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_swissprot_blastx blastx.outfmt6
+
+# 3. Load Pfam domain entries
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_pfam TrinotatePFAM.out
+
+# 4. Load transmembrane domains
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite  LOAD_tmhmm thmm.out
+
+# 5. Load signal peptide predictions
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_signalp prediction_results.txt
+
+# Trinotate output and annotation Report
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite report --incl_pep --incl_trans > trinotate_annotation_report.xls
+
+
+# Automated uploading all results into sqlite dbs and computing results
+#${TRINOTATE_PATH}/auto/autoTrinotate.pl

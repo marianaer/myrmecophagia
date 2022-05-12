@@ -14,21 +14,21 @@ RNAMMER_PATH=/home/escobar/bin/rnammer-1.2
 TRINITY_PATH=/home/escobar/bin/trinityrnaseq-v2.14.0
 
 # 1. Extract long ORFs (at least 100 amino acids long)
-#${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t $Trinity_fasta
+${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t $Trinity_fasta
 
-#TransDecoder.Predict -t ${Trinity_fasta}
+${PATH_TO_TRANSDECODER}TransDecoder.Predict -t ${Trinity_fasta}
 
 # 2.
 ### Capturing Blast homologies with Trinotate ###
 
 # search Trinity transcripts
-#blastx -query ${Trinity_fasta} -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastx.outfmt6
+blastx -query ${Trinity_fasta} -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastx.outfmt6
 
 # search Transdecoder-predicted proteins
-#blastp -query ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep  -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastp.outfmt6
+blastp -query ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep  -db ${PATH_TO_DB}/uniprot_sprot.pep -num_threads 40 -max_target_seqs 1 -outfmt 6 > blastp.outfmt6
 
 # Running HMMER to identify protein domains
-#hmmsearch --cpu 40 --domtblout TrinotatePFAM.out  ${PATH_TO_DB}/Pfam-A.hmm ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep > pfam.log
+hmmsearch --cpu 40 --domtblout TrinotatePFAM.out  ${PATH_TO_DB}/Pfam-A.hmm ${Trinity_fasta}.transdecoder_dir/longest_orfs.pep > pfam.log
 
 ## SignalP to predict signal peptides
 signalp6 --output_dir $(pwd) --mode fast --format txt --organism eukarya --fastafile ${Trinity_fasta}.transdecoder.pep
@@ -70,7 +70,6 @@ ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_signalp prediction_results.txt
 
 # Trinotate output and annotation Report
 ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite report --incl_pep --incl_trans > trinotate_annotation_report.xls
-#ff
 
 # Automated uploading all results into sqlite dbs and computing results
 #${TRINOTATE_PATH}/auto/autoTrinotate.pl

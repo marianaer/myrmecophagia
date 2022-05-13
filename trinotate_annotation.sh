@@ -54,7 +54,7 @@ ${TRINOTATE_PATH}/util/rnammer_support/RnammerTranscriptome.pl --transcriptome $
 # Getting boilerplate Trinotate sqlite db and populating it with our data
 #d 1. Load transcripts and coding regions into sqlite db
 
-${TRINOTATE_PATH}/Trinotate Trinotate.sqlite init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --transdecoder_pep ${Trinity_fasta}
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --transdecoder_pep ${Trinity_fasta}.transdecoder.pep
 
 # 2. Load Blast homologies
 # load protein hits

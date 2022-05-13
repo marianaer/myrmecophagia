@@ -15,9 +15,11 @@ TRINITY_PATH=/home/escobar/bin/trinityrnaseq-v2.14.0
 PATH_TO_TRANSDECODER=/home/escobar/bin/TransDecoder
 
 # 1. Extract long ORFs (at least 100 amino acids long)
-echo 'TransDecoder...'
+echo 'TransDecoder LongORFs...'
+echo 'command:' "${PATH_TO_TRANSDECODER}"/TransDecoder.LongOrfs -t "${Trinity_fasta}"
 ${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t ${Trinity_fasta}
 
+echo 'TransDecoder Predict...'
 ${PATH_TO_TRANSDECODER}/TransDecoder.Predict -t ${Trinity_fasta}
 
 # 2.

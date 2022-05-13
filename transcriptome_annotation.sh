@@ -47,11 +47,38 @@ ${TRINOTATE_PATH}/util/rnammer_support/RnammerTranscriptome.pl --transcriptome $
 
 # Load resulting gff file into trinotate in SQLite databases
 
+<<<<<<< HEAD
+# Getting boilerplate Trinotate sqlite db and populating it with our data
+#d 1. Load transcripts and coding regions into sqlite db
+=======
+# Initial import transcriptome and protein data
+#init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --transdecoder_pep ${Trinity_fasta}.transdecoder.pep
+>>>>>>> cab462813e6cfd4dd8275b67d0d01091aadf7146
+
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --transdecoder_pep ${Trinity_fasta}
+
+<<<<<<< HEAD
+=======
+# Trinity transcript search results
+#LOAD_swissprot_blastx blastx.outfmt6
+#LOAD_rnammer <file>
+
+
+# Load custom blast results using any searchable db
+#LOAD_custom_blast --outfmt6 blastp.outfmt6 --prog blastp --dbtype ${PATH_TO_DB}/uniprot_sprot.pep
+
+#LOAD_custom_blast --outfmt6 blastx.outfmt6 --prog blastx --dbtype ${PATH_TO_DB}/uniprot_sprot.pep
+
+# Report generation
+# report [ -E (default: 1e-5) ] [--pfam_cutoff DNC|DGC|DTC|SNC|SGC|STC (default: DNC=domain noise cutoff)]
+
+
 # Getting boilerplate Trinotate sqlite db and populating it with our data
 #d 1. Load transcripts and coding regions into sqlite db
 
 ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite init --gene_trans_map ${Trinity_gene_map} --transcript_fasta ${Trinity_fasta} --transdecoder_pep ${Trinity_fasta}
 
+>>>>>>> cab462813e6cfd4dd8275b67d0d01091aadf7146
 # 2. Load Blast homologies
 # load protein hits
 ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_swissprot_blastp blastp.outfmt6
@@ -70,7 +97,11 @@ ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_signalp prediction_results.txt
 
 # Trinotate output and annotation Report
 ${TRINOTATE_PATH}/Trinotate Trinotate.sqlite report --incl_pep --incl_trans > trinotate_annotation_report.xls
+<<<<<<< HEAD
 #ff
+=======
+
+>>>>>>> cab462813e6cfd4dd8275b67d0d01091aadf7146
 
 # Automated uploading all results into sqlite dbs and computing results
 #${TRINOTATE_PATH}/auto/autoTrinotate.pl

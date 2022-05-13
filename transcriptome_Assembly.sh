@@ -67,7 +67,7 @@ for dir in $dir_list
 
     echo 'Calculating assembly metrics...'
 
-    ~/bin/trinityrnaseq-v2.14.0/util/TrinityStats.pl "$dir"_trinity_output.Trinity.fasta > "$dir"_trinity_assemlby.metrics
+    ~/bin/trinityrnaseq-v2.14.0/util/TrinityStats.pl "$dir"_trinity_output.Trinity.fasta > "$dir"_trinity_assembly.metrics
 
     cd ..
   done
@@ -78,7 +78,7 @@ for dir in $dir_list
 singularity pull busco_5.1.3.sif docker://quay.io/biocontainers/busco:5.1.3--pyhdfd78af_0
 
 # use link to where we downloaded busco originally (previous command)
-./busco_5.1.3.sif busco -i "$dir"_trinity_output.Trinity.fasta -l mammalia_odb10 -o "$dir" -m tran
+/gpfs/scratch/maescobarrod/busco_5.1.3.sif busco -i "$dir"_trinity_output/"$dir"_trinity_output.Trinity.fasta -l mammalia_odb10 -o "$dir" -m tran -c 24
 
   # Generate Summary plot. IMPORTANT: all summary for all transcriptomes whould be in the same folder. This should be run there
 
@@ -107,10 +107,8 @@ cat all_metazoa.pep.all.fa | perl -ne 's/[^\x00-\x7F]+/ /g; print;' > all_metazo
 /home/escobar/bin/ncbi-blast-2.13.0+/bin/makeblastdb  -in all_metazoa_db.pep.all.fa  -input_type fasta  -dbtype prot
 
 # All vs. all blast
-/home/escobar/bin/ncbi-blast-2.13.0+/bin/blastp -db all_metazoa_db.pep.all.fa -query all_metazoa.pep.all.fa -out all_sv_all.tsv -outfmt 6  -num_threads 20
+/home/escobar/bin/ncbi-blast-2.13.0+/bin/blastp -db all_metazoa_db.pep.all.fa -query all_metazoa.pep.all.fa -out all_sv_all.tsv -outfmt 6  -num_threads 24
 
 
 
-
-
-# O tal vez si se podia solo habia que usar comillas dobles en la direccion ftp :(
+/home/escobar/bin/Trinotate/admin/util/EMBL_dat_to_Trinotate_sqlite_resourceDB.pl --sqlite Trinotate.sqlite --create

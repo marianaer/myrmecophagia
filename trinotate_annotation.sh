@@ -18,7 +18,7 @@ PATH_TO_TRANSDECODER=/home/escobar/bin/TransDecoder
 echo 'TransDecoder...'
 ${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t ${Trinity_fasta}
 
-${PATH_TO_TRANSDECODER}TransDecoder.Predict -t ${Trinity_fasta}
+${PATH_TO_TRANSDECODER}/TransDecoder.Predict -t ${Trinity_fasta}
 
 # 2.
 ### Capturing Blast homologies with Trinotate ###

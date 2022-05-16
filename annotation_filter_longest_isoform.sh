@@ -78,3 +78,5 @@ ${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite LOAD_signalp predicti
 
 # Trinotate output and annotation Report
 ${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite report --incl_pep --incl_trans > trinotate_annotation_report.xls
+
+conda deactivate

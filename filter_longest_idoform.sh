@@ -7,7 +7,6 @@ TRINOTATE_PATH=/home/escobar/bin/Trinotate
 RNAMMER_PATH=/home/escobar/bin/rnammer-1.2
 TRINITY_PATH=/home/escobar/bin/trinityrnaseq-v2.14.0
 PATH_TO_TRANSDECODER=/home/escobar/bin/TransDecoder
-PATH_TO_TMHMM=/home/escobar/bin/tmhmm-2.0c/bin
 
 # Filter trinity assembly by the longest idoform for each gene (has the most exons)
 ${TRINITY_PATH}/util/misc/get_longest_isoform_seq_per_trinity_gene.pl ${Trinity_fasta} > ${Trinity_fasta}.longest.fasta
@@ -43,8 +42,8 @@ signalp6 --output_dir $(pwd) --mode fast --format txt --organism eukarya --fasta
 
 #DeepTMHMM (tmHMM) to predict transmembrane regions
 # conda activate tmhmm
-#biolib run DTU/DeepTMHMM --fasta ${Trinity_fasta}.longest.fasta.transdecoder.pep
-${PATHO_TO_TMHMM}/tmhmm --short < ${Trinity_fasta}.longest.fasta.transdecoder.pep > tmhmm.out
+biolib run DTU/DeepTMHMM --fasta ${Trinity_fasta}.longest.fasta.transdecoder.pep
+#tmhmm --short < transdecoder.pep > tmhmm.out
 #conda deactivate
 
 #RNAMMER to identify rRNA transcripts
@@ -57,24 +56,24 @@ ${TRINOTATE_PATH}/util/rnammer_support/RnammerTranscriptome.pl --transcriptome $
 
 # Getting boilerplate Trinotate sqlite db and populating it with our data
 #d 1. Load transcripts and coding regions into sqlite db
-conda activate trinotate
-${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite init --gene_trans_map ${Trinity_fasta}.longest.fasta.gene_trans_map --transcript_fasta ${Trinity_fasta}.longest.fasta --transdecoder_pep ${Trinity_fasta}.longest.fasta.transdecoder.pep
+
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite init --gene_trans_map ${Trinity_fasta}.longest.fasta.gene_trans_map --transcript_fasta ${Trinity_fasta}.longest.fasta --transdecoder_pep ${Trinity_fasta}.longest.fasta.transdecoder.pep
 
 # 2. Load Blast homologies
 # load protein hits
-${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite LOAD_swissprot_blastp blastp.outfmt6
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_swissprot_blastp blastp.outfmt6
 
 # load transcript hits
-${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite LOAD_swissprot_blastx blastx.outfmt6
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_swissprot_blastx blastx.outfmt6
 
 # 3. Load Pfam domain entries
-${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite LOAD_pfam TrinotatePFAM.out
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_pfam TrinotatePFAM.out
 
 # 4. Load transmembrane domains
-${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite  LOAD_tmhmm tmhmm.out
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite  LOAD_tmhmm thmm.out
 
 # 5. Load signal peptide predictions
-${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite LOAD_signalp prediction_results.txt
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite LOAD_signalp prediction_results.txt
 
 # Trinotate output and annotation Report
-${TRINOTATE_PATH}/Trinotate ${PATH_TO_DB}/Trinotate.sqlite report --incl_pep --incl_trans > trinotate_annotation_report.xls
+${TRINOTATE_PATH}/Trinotate Trinotate.sqlite report --incl_pep --incl_trans > trinotate_annotation_report.xls

@@ -11,7 +11,7 @@ TRINITY_PATH=/home/escobar/bin/trinityrnaseq-v2.14.0
 kallisto index --make-unique -i ${Trinity_fasta}_kallisto.index ${Trinity_fasta}; done
 
 # Quantifying expression using paired reads on the kallisto index files
-kallisto quant -i ${Trinity_fasta}_kallisto.index -o ${Trinity_fasta}_Trinity_kallisto -b 100 <(zcat ${fastq1})> <(zcat${fastq2})> -t 40
+kallisto quant -i ${Trinity_fasta}_kallisto.index -o ${Trinity_fasta}_Trinity_kallisto -b 100 ${fastq1} ${fastq2} -t 40
 
 
 ####### Trinity Transcript Quantification #######

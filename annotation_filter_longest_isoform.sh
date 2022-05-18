@@ -18,11 +18,12 @@ ${TRINITY_PATH}/util/misc/get_longest_isoform_seq_per_trinity_gene.pl ${Trinity_
 ${TRINITY_HOME}/util/support_scripts/get_Trinity_gene_to_trans_map.pl ${Trinity_fasta}.longest.fasta >  ${Trinity_fasta}.longest.fasta.gene_trans_map
 
 
-# 1. Extract long ORFs (at least 100 amino acids long)
+# 1. Extract long ORFs (at least 100 amino acids long). PREDICT PROTEINS FROM TRANSCRIPTOMES
 echo 'TransDecoder LongORFs...'
 echo 'command:' "${PATH_TO_TRANSDECODER}"/TransDecoder.LongOrfs -t ${Trinity_fasta}.longest.fasta
 ${PATH_TO_TRANSDECODER}/TransDecoder.LongOrfs -t ${Trinity_fasta}.longest.fasta
 
+#Predict proteins
 echo 'TransDecoder Predict...'
 ${PATH_TO_TRANSDECODER}/TransDecoder.Predict -t ${Trinity_fasta}.longest.fasta
 

@@ -24,7 +24,4 @@ ${TRINITY_PATH}/util/align_and_estimate_abundance.pl --transcripts ${Trinity_fas
 ${TRINITY_PATH}/util/align_and_estimate_abundance.pl --transcripts ${Trinity_fasta} --seqType fq --left  ${fastq1} --right ${fastq2} --est_method kallisto --trinity_mode --output_dir ${output_dir}
 
 ## Use the --gene_trans_map or --trinity_mode parameters in order to get a gene counts matrix in addition to the isoform counts matrix
-/media/bigvol/fdelsuc/bin/trinityrnaseq-v2.9.0/util/abundance_estimates_to_matrix.pl --est_method kallisto --gene_trans_map Tamandua_tetradactyla_G2525_Spleen_TAMtetFC04_Trinity.fasta.gene_trans_map --out_prefix Tamandua_tetradactyla_G2525_Spleen_TAMtetFC04 --name_sample_by_basedir Tamandua_tetradactyla_G2525_Spleen_TAMtetFC04/abundance.tsv
-
-
 ${TRINITY_PATH}/util/align_and_estimate_abundance.pl --est_method kallisto --gene_trans_map ${Trinity_fasta}.gene.trans.map --out_prefix ${Trinity_fasta}_kallisto --name_sample_by_base_dir  ${Trinity_fasta}_kallisto/abundance.tsv

@@ -9,7 +9,7 @@ TRINITY_PATH=/home/escobar/bin/trinityrnaseq-v2.14.0
 
 # Build kallisto index files from Trinity contigs
 echo 'Building kallisto index files from Trinity contigs...'
-#kallisto index --make-unique -i ${Trinity_fasta}_kallisto.index ${Trinity_fasta}
+kallisto index --make-unique -i ${Trinity_fasta}_kallisto.index ${Trinity_fasta}
 
 # Quantifying expression using paired reads on the kallisto index files
 echo 'Quantifying expression using paired reads on the kallisto index files...'
